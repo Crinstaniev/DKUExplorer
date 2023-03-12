@@ -11,10 +11,10 @@
 		354A98A629BA0B6600A4212F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 354A98A529BA0B6600A4212F /* ContentView.swift */; };
 		354A98AA29BA0B6600A4212F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 354A98A929BA0B6600A4212F /* Assets.xcassets */; };
 		354A98AD29BA0B6600A4212F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 354A98AC29BA0B6600A4212F /* Preview Assets.xcassets */; };
-		354A98B529BA125C00A4212F /* Experience.rcproject in Sources */ = {isa = PBXBuildFile; fileRef = 354A98B329BA11C100A4212F /* Experience.rcproject */; };
 		354A98B729BDCE1E00A4212F /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 354A98B629BDCE1D00A4212F /* InfoView.swift */; };
 		354A98BB29BDD00600A4212F /* HomeARView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 354A98BA29BDD00600A4212F /* HomeARView.swift */; };
-		35ADB46129BE03D00052A820 /* YOLOv3Int8LUT.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 35ADB46029BE03D00052A820 /* YOLOv3Int8LUT.mlmodel */; };
+		35ADB46429BE26C30052A820 /* MobileNetV2.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 35ADB46329BE26C30052A820 /* MobileNetV2.mlmodel */; };
+		35ADB46629BE298D0052A820 /* Marker.rcproject in Sources */ = {isa = PBXBuildFile; fileRef = 35ADB46529BE298D0052A820 /* Marker.rcproject */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,10 +23,11 @@
 		354A98A529BA0B6600A4212F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		354A98A929BA0B6600A4212F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		354A98AC29BA0B6600A4212F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		354A98B329BA11C100A4212F /* Experience.rcproject */ = {isa = PBXFileReference; lastKnownFileType = file.rcproject; path = Experience.rcproject; sourceTree = "<group>"; };
 		354A98B629BDCE1D00A4212F /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
 		354A98BA29BDD00600A4212F /* HomeARView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeARView.swift; sourceTree = "<group>"; };
-		35ADB46029BE03D00052A820 /* YOLOv3Int8LUT.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = YOLOv3Int8LUT.mlmodel; sourceTree = "<group>"; };
+		35ADB46229BE25AB0052A820 /* DKU-Explorer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "DKU-Explorer-Info.plist"; sourceTree = SOURCE_ROOT; };
+		35ADB46329BE26C30052A820 /* MobileNetV2.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = MobileNetV2.mlmodel; sourceTree = "<group>"; };
+		35ADB46529BE298D0052A820 /* Marker.rcproject */ = {isa = PBXFileReference; lastKnownFileType = file.rcproject; path = Marker.rcproject; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,12 +60,13 @@
 		354A98A229BA0B6600A4212F /* DKU Explorer */ = {
 			isa = PBXGroup;
 			children = (
-				35ADB46029BE03D00052A820 /* YOLOv3Int8LUT.mlmodel */,
+				35ADB46229BE25AB0052A820 /* DKU-Explorer-Info.plist */,
+				35ADB46329BE26C30052A820 /* MobileNetV2.mlmodel */,
 				354A98A329BA0B6600A4212F /* AppDelegate.swift */,
 				354A98A529BA0B6600A4212F /* ContentView.swift */,
 				354A98BA29BDD00600A4212F /* HomeARView.swift */,
 				354A98B629BDCE1D00A4212F /* InfoView.swift */,
-				354A98B329BA11C100A4212F /* Experience.rcproject */,
+				35ADB46529BE298D0052A820 /* Marker.rcproject */,
 				354A98A929BA0B6600A4212F /* Assets.xcassets */,
 				354A98AB29BA0B6600A4212F /* Preview Content */,
 			);
@@ -149,10 +151,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				35ADB46629BE298D0052A820 /* Marker.rcproject in Sources */,
+				35ADB46429BE26C30052A820 /* MobileNetV2.mlmodel in Sources */,
 				354A98A629BA0B6600A4212F /* ContentView.swift in Sources */,
 				354A98A429BA0B6600A4212F /* AppDelegate.swift in Sources */,
-				354A98B529BA125C00A4212F /* Experience.rcproject in Sources */,
-				35ADB46129BE03D00052A820 /* YOLOv3Int8LUT.mlmodel in Sources */,
 				354A98BB29BDD00600A4212F /* HomeARView.swift in Sources */,
 				354A98B729BDCE1E00A4212F /* InfoView.swift in Sources */,
 			);
@@ -286,8 +288,10 @@
 				DEVELOPMENT_TEAM = 29QNFY6MS9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "DKU-Explorer-Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_NSCameraUsageDescription = "";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Only for debug use.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UIRequiredDeviceCapabilities = arkit;
@@ -319,8 +323,10 @@
 				DEVELOPMENT_TEAM = 29QNFY6MS9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "DKU-Explorer-Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_NSCameraUsageDescription = "";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Only for debug use.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UIRequiredDeviceCapabilities = arkit;
