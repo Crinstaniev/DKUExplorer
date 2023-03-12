@@ -61,11 +61,9 @@
 			isa = PBXGroup;
 			children = (
 				35ADB46229BE25AB0052A820 /* DKU-Explorer-Info.plist */,
-				35ADB46329BE26C30052A820 /* MobileNetV2.mlmodel */,
+				35ADB46829BE2B120052A820 /* Models */,
 				354A98A329BA0B6600A4212F /* AppDelegate.swift */,
-				354A98A529BA0B6600A4212F /* ContentView.swift */,
-				354A98BA29BDD00600A4212F /* HomeARView.swift */,
-				354A98B629BDCE1D00A4212F /* InfoView.swift */,
+				35ADB46729BE2B030052A820 /* Views */,
 				35ADB46529BE298D0052A820 /* Marker.rcproject */,
 				354A98A929BA0B6600A4212F /* Assets.xcassets */,
 				354A98AB29BA0B6600A4212F /* Preview Content */,
@@ -79,6 +77,24 @@
 				354A98AC29BA0B6600A4212F /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		35ADB46729BE2B030052A820 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				354A98A529BA0B6600A4212F /* ContentView.swift */,
+				354A98BA29BDD00600A4212F /* HomeARView.swift */,
+				354A98B629BDCE1D00A4212F /* InfoView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		35ADB46829BE2B120052A820 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				35ADB46329BE26C30052A820 /* MobileNetV2.mlmodel */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

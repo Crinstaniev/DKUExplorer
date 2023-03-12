@@ -8,6 +8,8 @@ import RealityKit
 
 
 struct Tabbar: View {
+    @ObservedObject var recogd = ObjectDetector.shared
+    
     var body: some View {
         TabView {
             HStack(alignment: .bottom) {
@@ -15,7 +17,8 @@ struct Tabbar: View {
             }
             .tabItem {
                 Image(systemName: "camera.fill")
-                Text("AR")
+//                Text("AR")
+                Text("\(recogd.recognizedObject)")
             }
             HStack {
                 InfoView()

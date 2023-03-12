@@ -7,35 +7,12 @@ import RealityKit
 import CoreML
 import Vision
 import Photos
-
-// Debug
-extension CIImage {
-    func toUIImage() -> UIImage? {
-        let context = CIContext(options: nil)
-        if let cgImage = context.createCGImage(self, from: self.extent) {
-            return UIImage(cgImage: cgImage)
-        }
-        return nil
-    }
-}
-// Debug
-func saveImageToPhotos(image: CIImage) {
-    guard let uiImage = image.toUIImage() else { return }
-    PHPhotoLibrary.shared().performChanges({
-        PHAssetChangeRequest.creationRequestForAsset(from: uiImage)
-    }) { saved, error in
-        if let error = error {
-            print("Error saving image to photo library: \(error.localizedDescription)")
-        } else {
-            print("Image saved to photo library")
-        }
-    }
-}
-
+import SceneKit
+import ARKit
 
 struct HomeARView: View {
     var body: some View {
-         ARViewContainer()
+        ARViewContainer()
     }
 }
 
@@ -118,17 +95,68 @@ struct ARViewContainer: UIViewRepresentable {
     @ObservedObject var recogd = ObjectDetector.shared
     
     func makeUIView(context: Context) -> ARView {
-        let view = recogd.arview
-        return view
+        let arview = recogd.arview
+        
+        return arview
     }
     
-    func updateUIView(_ uiView: ARView, context: Context) {}
+    func updateUIView(_ uiView: ARView, context: Context) {
+        let arview = recogd.arview
+        let session = arview.session
+        
+        // Create an anchor at the center of the screen
+        let anchor = ARAnchor(transform: arview.cameraTransform.matrix)
+        
+        session.add(anchor: anchor)
+        
+        var txt = SCNText()
+        
+        // let's keep the number of anchors to no more than 1 for this demo
+        if recogd.arview.scene.anchors.count > 0 {
+            recogd.arview.scene.anchors.removeAll()
+        }
+        
+        // create the AR Text to place on the screen
+        txt = SCNText(string: recogd.recognizedObject, extrusionDepth: 1)
+        let material = SCNMaterial()
+        material.diffuse.contents = UIColor.magenta
+        txt.materials = [material]
+        
+        let shader = SimpleMaterial(color: .blue, roughness: 1, isMetallic: true)
+        let text = MeshResource.generateText(
+            "\(recogd.recognizedObject)",
+            extrusionDepth: 0.05,
+            font: .init(name: "Helvetica", size: 0.05)!,
+            alignment: .center
+        )
+        
+        let textEntity = ModelEntity(mesh: text, materials: [shader])
+        
+        let transform = recogd.arview.cameraTransform
+        let trans = transform.matrix
+        
+        let anchEntity = AnchorEntity(world: trans)
+        
+        textEntity.position.z -= 0.5 // place the text 1/2 meter away from the camera along the Z axis
+        
+        // find the width of the entity in order to have the text appear in the center
+        let minX = text.bounds.min.x
+        let maxX = text.bounds.max.x
+        let width = maxX - minX
+        let xPos = width / 2
+        
+        textEntity.position.x = transform.translation.x - xPos
+        
+        anchEntity.addChild(textEntity)
+        
+        recogd.arview.scene.addAnchor(anchEntity)
+    }
     
 }
 
+
+
 struct HomeARView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeARView()
-//        DummyARView()
-    }
+        HomeARView()    }
 }
