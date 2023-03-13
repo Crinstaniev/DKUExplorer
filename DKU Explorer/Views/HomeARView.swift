@@ -9,6 +9,7 @@ import Vision
 import Photos
 import SceneKit
 import ARKit
+import SpriteKit
 
 struct HomeARView: View {
     var body: some View {
@@ -26,14 +27,30 @@ class ObjectDetector: ObservableObject {
     
     @Published var arview = ARView()
     
-    @Published var model = try! VNCoreMLModel(for: MobileNetV2(configuration: MLModelConfiguration()).model)
+    //    @Published var model = try! VNCoreMLModel(for: MobileNetV2(configuration: MLModelConfiguration()).model)
+    @Published var model = try! VNCoreMLModel(for: YOLOv3Tiny(configuration: MLModelConfiguration()).model)
     
     @Published var recognizedObject = "nothing"
+    @Published var boundingBox: CGRect = CGRect(x: 0, y: 0, width: 0, height: 0)
+    @Published var currentCIImage: CIImage = CIImage()
     
     var timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: {t in updateView(t)})
     
     func setRecognizedObject(_ newObjectName: String) {
         self.recognizedObject = newObjectName
+    }
+    
+    func setBoundingBox(_ boundingBox: CGRect) {
+        self.boundingBox = boundingBox
+    }
+    
+    func getObjectCentralPoint() -> CGPoint {
+        // TODO: find the central point of the bounding box then return
+        return CGPoint(x: 0, y: 0)
+    }
+    
+    func setCurrentImage(_ currentCIImage: CIImage) {
+        self.currentCIImage = currentCIImage
     }
 }
 
@@ -58,37 +75,52 @@ func updateView(_ timer: Timer) {
     
     let request = VNCoreMLRequest(model: model) {
         (request, error) in
+        guard let results = request.results as? [VNRecognizedObjectObservation],
+              error == nil else {
+            fatalError("Failed to perform object detection: \(error!.localizedDescription)")
+        }
+        
+        if results.count == 0 {
+            print("the result is empty")
+            return
+        }
+        
+        // handle results
+        let boundingBox = results[0].boundingBox
+        let label = results[0].labels[0]
+        let confidence = label.confidence
+        let identifier = label.identifier
+        
+        print("BoundingBox: \(boundingBox)")
+        print("identifier: \(identifier)")
+        print("confidence: \(confidence)")
     }
-    request.imageCropAndScaleOption = .centerCrop
     
-    // setup handler
-    let handler = VNImageRequestHandler(ciImage: currentCIImage, orientation: .right)
+    let inputSize = CGSize(width: 416, height: 416)
+    let scaledImage = currentCIImage.transformed(by: CGAffineTransform(scaleX: inputSize.width / currentCIImage.extent.width, y: inputSize.height / currentCIImage.extent.height))
+    
+    recogd.setCurrentImage(scaledImage)
+    
+    let imageRequestHandler = VNImageRequestHandler(ciImage: scaledImage, orientation: .right, options: [:])
     
     do {
-        // send the request to the model
-        try handler.perform([request])
+        try imageRequestHandler.perform([request])
     } catch {
-        print("Error in performing model request")
-        print(error)
-    }
-    
-    // get observations
-    guard let observations = request.results as? [VNClassificationObservation] else {
-        print("No observations")
-        return
+        fatalError("Failed to perform object detection: \(error.localizedDescription)")
     }
     
     // TODO: filter observations (confidence based)
     
     // we only handle 1 object at a time
-    let topLabelObservation = observations[0].identifier
-    let firstWord = topLabelObservation.components(separatedBy: [","])[0]
-    
-    if recogd.recognizedObject != firstWord {
-        DispatchQueue.main.async {
-            recogd.setRecognizedObject(firstWord)
-        }
-    }
+    //    let topLabelObservation = observations[0].identifier
+    //    let firstWord = topLabelObservation.components(separatedBy: [","])[0]
+    //    let topLabelInfo = observations[0]
+    //
+    //    if recogd.recognizedObject != firstWord {
+    //        DispatchQueue.main.async {
+    //            recogd.setRecognizedObject(firstWord)
+    //        }
+    //    }
 }
 
 struct ARViewContainer: UIViewRepresentable {
@@ -104,59 +136,13 @@ struct ARViewContainer: UIViewRepresentable {
         let arview = recogd.arview
         let session = arview.session
         
-        // Create an anchor at the center of the screen
-        let anchor = ARAnchor(transform: arview.cameraTransform.matrix)
         
-        session.add(anchor: anchor)
-        
-        var txt = SCNText()
-        
-        // let's keep the number of anchors to no more than 1 for this demo
-        if recogd.arview.scene.anchors.count > 0 {
-            recogd.arview.scene.anchors.removeAll()
-        }
-        
-        // create the AR Text to place on the screen
-        txt = SCNText(string: recogd.recognizedObject, extrusionDepth: 1)
-        let material = SCNMaterial()
-        material.diffuse.contents = UIColor.magenta
-        txt.materials = [material]
-        
-        let shader = SimpleMaterial(color: .blue, roughness: 1, isMetallic: true)
-        let text = MeshResource.generateText(
-            "\(recogd.recognizedObject)",
-            extrusionDepth: 0.05,
-            font: .init(name: "Helvetica", size: 0.05)!,
-            alignment: .center
-        )
-        
-        let textEntity = ModelEntity(mesh: text, materials: [shader])
-        
-        let transform = recogd.arview.cameraTransform
-        let trans = transform.matrix
-        
-        let anchEntity = AnchorEntity(world: trans)
-        
-        textEntity.position.z -= 0.5 // place the text 1/2 meter away from the camera along the Z axis
-        
-        // find the width of the entity in order to have the text appear in the center
-        let minX = text.bounds.min.x
-        let maxX = text.bounds.max.x
-        let width = maxX - minX
-        let xPos = width / 2
-        
-        textEntity.position.x = transform.translation.x - xPos
-        
-        anchEntity.addChild(textEntity)
-        
-        recogd.arview.scene.addAnchor(anchEntity)
     }
     
 }
 
-
-
 struct HomeARView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeARView()    }
+        HomeARView()
+    }
 }

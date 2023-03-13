@@ -15,6 +15,10 @@
 		354A98BB29BDD00600A4212F /* HomeARView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 354A98BA29BDD00600A4212F /* HomeARView.swift */; };
 		35ADB46429BE26C30052A820 /* MobileNetV2.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 35ADB46329BE26C30052A820 /* MobileNetV2.mlmodel */; };
 		35ADB46629BE298D0052A820 /* Marker.rcproject in Sources */ = {isa = PBXBuildFile; fileRef = 35ADB46529BE298D0052A820 /* Marker.rcproject */; };
+		35ADB46B29BE50080052A820 /* ARUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35ADB46A29BE50080052A820 /* ARUtils.swift */; };
+		35F335AC29BEC76700E44CEC /* SqueezeNet.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 35F335AA29BEC76600E44CEC /* SqueezeNet.mlmodel */; };
+		35F335AD29BEC76700E44CEC /* YOLOv3Tiny.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 35F335AB29BEC76700E44CEC /* YOLOv3Tiny.mlmodel */; };
+		35F335AF29BED4A500E44CEC /* ImageDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F335AE29BED4A500E44CEC /* ImageDisplayView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +32,10 @@
 		35ADB46229BE25AB0052A820 /* DKU-Explorer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "DKU-Explorer-Info.plist"; sourceTree = SOURCE_ROOT; };
 		35ADB46329BE26C30052A820 /* MobileNetV2.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = MobileNetV2.mlmodel; sourceTree = "<group>"; };
 		35ADB46529BE298D0052A820 /* Marker.rcproject */ = {isa = PBXFileReference; lastKnownFileType = file.rcproject; path = Marker.rcproject; sourceTree = "<group>"; };
+		35ADB46A29BE50080052A820 /* ARUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARUtils.swift; sourceTree = "<group>"; };
+		35F335AA29BEC76600E44CEC /* SqueezeNet.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = SqueezeNet.mlmodel; sourceTree = "<group>"; };
+		35F335AB29BEC76700E44CEC /* YOLOv3Tiny.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = YOLOv3Tiny.mlmodel; sourceTree = "<group>"; };
+		35F335AE29BED4A500E44CEC /* ImageDisplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDisplayView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,10 +68,11 @@
 		354A98A229BA0B6600A4212F /* DKU Explorer */ = {
 			isa = PBXGroup;
 			children = (
+				35ADB46929BE4FED0052A820 /* Utils */,
 				35ADB46229BE25AB0052A820 /* DKU-Explorer-Info.plist */,
-				35ADB46829BE2B120052A820 /* Models */,
 				354A98A329BA0B6600A4212F /* AppDelegate.swift */,
 				35ADB46729BE2B030052A820 /* Views */,
+				35ADB46829BE2B120052A820 /* Models */,
 				35ADB46529BE298D0052A820 /* Marker.rcproject */,
 				354A98A929BA0B6600A4212F /* Assets.xcassets */,
 				354A98AB29BA0B6600A4212F /* Preview Content */,
@@ -84,6 +93,7 @@
 			children = (
 				354A98A529BA0B6600A4212F /* ContentView.swift */,
 				354A98BA29BDD00600A4212F /* HomeARView.swift */,
+				35F335AE29BED4A500E44CEC /* ImageDisplayView.swift */,
 				354A98B629BDCE1D00A4212F /* InfoView.swift */,
 			);
 			path = Views;
@@ -92,9 +102,19 @@
 		35ADB46829BE2B120052A820 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				35F335AA29BEC76600E44CEC /* SqueezeNet.mlmodel */,
+				35F335AB29BEC76700E44CEC /* YOLOv3Tiny.mlmodel */,
 				35ADB46329BE26C30052A820 /* MobileNetV2.mlmodel */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		35ADB46929BE4FED0052A820 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				35ADB46A29BE50080052A820 /* ARUtils.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -168,9 +188,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				35ADB46629BE298D0052A820 /* Marker.rcproject in Sources */,
+				35F335AF29BED4A500E44CEC /* ImageDisplayView.swift in Sources */,
+				35F335AD29BEC76700E44CEC /* YOLOv3Tiny.mlmodel in Sources */,
 				35ADB46429BE26C30052A820 /* MobileNetV2.mlmodel in Sources */,
 				354A98A629BA0B6600A4212F /* ContentView.swift in Sources */,
+				35F335AC29BEC76700E44CEC /* SqueezeNet.mlmodel in Sources */,
 				354A98A429BA0B6600A4212F /* AppDelegate.swift in Sources */,
+				35ADB46B29BE50080052A820 /* ARUtils.swift in Sources */,
 				354A98BB29BDD00600A4212F /* HomeARView.swift in Sources */,
 				354A98B729BDCE1E00A4212F /* InfoView.swift in Sources */,
 			);

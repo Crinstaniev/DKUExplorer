@@ -17,8 +17,7 @@ struct Tabbar: View {
             }
             .tabItem {
                 Image(systemName: "camera.fill")
-//                Text("AR")
-                Text("\(recogd.recognizedObject)")
+                Text("AR")
             }
             HStack {
                 InfoView()
