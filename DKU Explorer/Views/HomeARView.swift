@@ -65,7 +65,6 @@ func updateView(_ timer: Timer) {
     // setup handy variables
     @ObservedObject var recogd = ObjectDetector.shared
     let arview = recogd.arview
-    let session = arview.session
     let model = recogd.model
     
     // Get the current ARFrame
@@ -86,22 +85,14 @@ func updateView(_ timer: Timer) {
     let ciImage = CIImage(cvPixelBuffer: pixelBuffer)
         .cropped(to: imageRect) // Crop the CIImage to the computed rect
     
-    saveImageToPhotoLibrary(image: ciImage)
+//    saveImageToPhotoLibrary(image: CIImage(cvPixelBuffer: pixelBuffer))
     
-    // capture image on the current frame
-    let currentImageBuffer: CVImageBuffer? = session.currentFrame?.capturedImage
-    if currentImageBuffer == nil {
-        print("Current image is nill.")
-        return
-    }
+    recogd.frameHeight = ciImage.extent.height
+    recogd.frameWidth = ciImage.extent.width
     
-    let currentCIImage = CIImage(cvImageBuffer: currentImageBuffer!)
-    
-    recogd.frameWidth = currentCIImage.extent.width
-    recogd.frameHeight = currentCIImage.extent.height
-    
-    print("frameWidth: \(recogd.frameWidth)")
-    print("frameHeight: \(recogd.frameHeight)")
+//    print("frameWidth: \(recogd.frameWidth)")
+//    print("frameHeight: \(recogd.frameHeight)")
+//    print("arBounds: \(recogd.arview.bounds)")
     
     let request = VNCoreMLRequest(model: model) {
         (request, error) in
@@ -114,7 +105,9 @@ func updateView(_ timer: Timer) {
     }
     
     let inputSize = CGSize(width: 416, height: 416)
-    let scaledImage = currentCIImage.transformed(by: CGAffineTransform(scaleX: inputSize.width / currentCIImage.extent.width, y: inputSize.height / currentCIImage.extent.height))
+    let scaledImage = ciImage.transformed(by: CGAffineTransform(scaleX: inputSize.width / ciImage.extent.width, y: inputSize.height / ciImage.extent.height))
+    
+//    saveImageToPhotoLibrary(image: scaledImage)
     
     let imageRequestHandler = VNImageRequestHandler(ciImage: scaledImage, orientation: .right, options: [:])
     
@@ -146,6 +139,7 @@ func recognitionResultHandler(_ results: [VNRecognizedObjectObservation]) {
         return
     }
     
+    print("arbound: \(recogd.arview.bounds)")
     print("objectBound: \(objectBound)")
     print("label: \(label)")
     print("confidence: \(confidence)")
@@ -161,17 +155,7 @@ struct ARViewContainer: UIViewRepresentable {
     }
     
     func updateUIView(_ uiView: ARView, context: Context) {
-        let arview = recogd.arview
-        // testing raycast
-        let screenCenter = CGPoint(x: arview.bounds.midX, y: arview.bounds.midY)
-//        let ray = arview.raycast(from: screenCenter, allowing: ARRaycastQuery.Target.existingPlaneGeometry, alignment: ARRaycastQuery.TargetAlignment.any)
         
-        let ray = arview.raycast(from: screenCenter, allowing: .estimatedPlane, alignment: .any)
-        
-        print("casting from \(arview.bounds.midX), \(arview.bounds.midY)")
-        print(arview.bounds.height)
-        print(arview.bounds.width)
-        print("ray: \(ray)")
     }
     
 }
